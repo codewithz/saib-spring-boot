@@ -42,5 +42,63 @@ public class AccountRepository {
 		
 		return account;
 	}
+	
+	public String updateAccount(int accountId,Account a)
+	{
+		String result="";
+		Account account=null;
+		
+		List<Account> accountsList=AccountDataHolder.getAccounts();
+		
+		for(Account a1:accountsList)
+		{
+			if(a1.getAccountNumber()==accountId)
+			{
+				account=a1;
+				break;
+			}
+	 
+		}
+		if(account!=null)
+		{
+			accountsList.remove(account);
+			accountsList.add(a);
+			result="SUCCESS";
+		}
+		else
+		{
+			result="FAILURE";
+		}
+		return result;
+	}
+	
+	public String deleteAccount(int accountId)
+	{
+		String result="";
+		Account account=null;
+		
+		List<Account> accountsList=AccountDataHolder.getAccounts();
+		
+		for(Account a1:accountsList)
+		{
+			if(a1.getAccountNumber()==accountId)
+			{
+				account=a1;
+				break;
+			}
+	
+		}
+		if(account!=null)
+		{
+			accountsList.remove(account);
+			result="SUCCESS";
+		}
+		else
+		{
+			result="FAILURE";
+		}
+		return result;
+	}
+
 
 }

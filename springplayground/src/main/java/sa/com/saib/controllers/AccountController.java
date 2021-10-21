@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,6 +64,27 @@ public class AccountController {
 			ResponseEntity<APISuccessPayload> response=
 						new ResponseEntity<APISuccessPayload>(payload, HttpStatus.OK);
 			return response;
+		}
+		
+		@PutMapping("/accounts/{accountId}")
+		public ResponseEntity<APISuccessPayload> updateAccount(@PathVariable int accountId,@RequestBody Account a)
+		{
+			String result=accountService.updateAccount(accountId, a);
+			APISuccessPayload payload=APISuccessPayload.build(result, result, HttpStatus.CREATED);
+			ResponseEntity<APISuccessPayload> response=
+						new ResponseEntity<>(payload,HttpStatus.CREATED);
+			return response;
+		}
+		
+		@DeleteMapping("/accounts/{accountId}")
+		public ResponseEntity<APISuccessPayload> deleteAccount(@PathVariable int accountId)
+		{
+			String result=accountService.deleteAccount(accountId);
+			APISuccessPayload payload=APISuccessPayload.build(result, "ACCOUNT DELETED", HttpStatus.OK);
+			ResponseEntity<APISuccessPayload> response=
+						new ResponseEntity<>(payload,HttpStatus.OK);
+			return response;
+			
 		}
 	
 	

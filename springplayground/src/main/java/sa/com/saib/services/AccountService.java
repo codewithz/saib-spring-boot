@@ -42,5 +42,17 @@ public class AccountService {
 		Account account=accountRepository.getAccountByAccountId(accountId);
 		return account;
 	}
+	
+	public String updateAccount(int accountId,Account a)
+	{
+		String result=accountRepository.updateAccount(accountId, a);
+		return result;
+	}
+	
+	public String deleteAccount(int accountId)
+	{
+		String result=accountRepository.deleteAccount(accountId);
+		return result;
+	}
 
 }
