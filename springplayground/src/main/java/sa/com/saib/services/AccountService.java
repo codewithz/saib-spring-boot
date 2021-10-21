@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import sa.com.saib.models.Account;
 import sa.com.saib.repository.AccountRepository;
@@ -33,14 +35,47 @@ public class AccountService {
 	
 	public List<Account> getAccounts()
 	{
+		try {
 		List<Account> accounts=accountRepository.getAccounts();
+		if(accounts.size()>0)
+		{
 		return accounts;
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No Accounts Found");
+		}
+		}
+		catch (Exception e) {
+			if(e instanceof ResponseStatusException) {
+				throw e;
+			}
+			else
+			{
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+			}
+		}
 	}
 	
 	public Account getAccountByAccountId(int accountId)
 	{
+		try {
 		Account account=accountRepository.getAccountByAccountId(accountId);
+		if(account!=null) {
 		return account;
+		}
+		else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account doesn't exist");
+		}
+		}
+		catch (Exception e) {
+			if(e instanceof ResponseStatusException) {
+				throw e;
+			}
+			else
+			{
+				throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+			}
+		}
 	}
 	
 	public String updateAccount(int accountId,Account a)
